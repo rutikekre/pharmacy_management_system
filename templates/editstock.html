@@ -1,0 +1,467 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS | Edit Stock</title>
+
+
+    <!-- Bootstrap Links -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!--for data table  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <!-- Fevicon Icons -->
+    <!--  Other Links  -->
+
+</head>
+
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" href="/home">
+                    <h3><span style="color: red;font-weight:bolder;font-size:120%">+ </span><span
+                            class="text-primary">Pharmacy </span><span class="text-light">Management System</span></h3>
+                </a>
+                <a href="/logout">
+                    <button type="button" class="btn btn-outline-danger"><b>LOGOUT</b></button>
+                </a>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-2 bg-secondary">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{url_for('billing')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Billing</b></button>
+                        </a>
+
+                        <a href="{{url_for('checkstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Check
+                                    Stock</b></button>
+                        </a>
+                        <a href="{{url_for('editstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2 active"><b>Edit
+                                    Stock</b></button>
+                        </a>
+                        <a href="{{url_for('home')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Admin</b></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="row mx-5 my-2">
+            <div class="col-md-3 px-4 py-4" style="border: 4px solid black;" id="add-update">
+                <button type="button" class="btn btn-primary w-100 mb-3" >Click <b>Update Item</b> For Editing
+                    Stock</button>
+                <h3 class="text-center">Add Item</h3>
+                <form action="/additem" method="post">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Medicine Name:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="itemname" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Company Name:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="companyname" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">MFG Date:</label>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control mt-3" name="mfgdate" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">EXP Date:</label>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control mt-3" name="expdate" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Unit Price:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="unitprice" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Total Units:</label>
+                                </td>
+                                <td>
+                                    <input type="Number" class="form-control mt-3" name="totalunits" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Add Item" class="btn btn-primary w-100 my-2">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+
+            <!-- <div class="col-md-3 px-4 py-2" style="border: 4px solid black;" id="add-update">
+                <button type="button" class="btn btn-primary w-100 my-3" onclick="showAddItemLayout();"><b>Click Here</b> For Add Item Layout</button>
+                <h3 class="text-center">Update Item</h3> 
+                <form action="/updateitem" method="post">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Serial No:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="sr" id="sr" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Medicine Name:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="itemname" id="itemname" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Company Name:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="companyname" id="companyname"
+                                        required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">MFG Date:</label>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control mt-3" name="mfgdate" id="mfgdate" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">EXP Date:</label>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control mt-3" name="expdate" id="expdate" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Unit Price:</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control mt-3" name="unitprice" id="unitprice"
+                                        required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="" style="font-weight:bold;">Total Units:</label>
+                                </td>
+                                <td>
+                                    <input type="Number" class="form-control mt-3" name="totalunits" id="totalunits"
+                                        required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Update Item" class="btn btn-primary w-100 my-2">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div> -->
+
+            <div class="col-md-9 d-flex justify-content-center">
+                <div class="row">
+                    <table id="med" class="display">
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Name of Medicine</th>
+                                <th>Company</th>
+                                <th>MFG</th>
+                                <th>EXP</th>
+                                <th>Unit Prize</th>
+                                <th>Total Units</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- Printing stock from database using jinja -->
+                            {%for i in medStock%}
+                            <tr>
+                                <td>{{loop.index}}</td>
+                                <td>{{i[1]}}</td>
+                                <td>{{i[2]}}</td>
+                                <td>{{i[3]}}</td>
+                                <td>{{i[4]}}</td>
+                                <td>{{i[5]}}</td>
+                                <td>{{i[6]}}</td>
+                                <td>
+                                    <style>
+                                        .edit-button {
+                                            padding: 3px;
+                                            height: 30px;
+                                            background-color: #0d6efd;
+                                            color: white;
+                                            border-radius: 5px;
+                                        }
+
+                                        .edit-button:hover {
+                                            background-color: #0d51b6;
+                                            color: white;
+                                        }
+                                    </style>
+                                    <button type="button" class="btn edit-button" id="item{{loop.index}}"
+                                        onclick="editItem({{loop.index}})">
+                                        Update Item
+                                    </button>
+                                </td>
+                            </tr>
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
+
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#med').DataTable();
+    });
+</script>
+
+<script>
+
+    function showAddItemLayout() {
+        document.getElementById("add-update").innerHTML = `
+        <button type="button" class="btn btn-primary w-100 mb-3">Click <b>Update Item</b> For Editing Stock</button>
+        <h3 class="text-center">Add Item</h3>
+        <form action="/additem" method="post">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Medicine Name:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="itemname" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Company Name:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="companyname" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">MFG Date:</label>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control mt-3" name="mfgdate" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">EXP Date:</label>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control mt-3" name="expdate" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Unit Price:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="unitprice" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Total Units:</label>
+                        </td>
+                        <td>
+                            <input type="Number" class="form-control mt-3" name="totalunits" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Add Item" class="btn btn-primary w-100 my-2">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>`;
+    }
+
+    function showUpdateItemLayou() {
+        document.getElementById("add-update").innerHTML = `
+        <button type="button" class="btn btn-primary w-100 mb-3" onclick="showAddItemLayout();"><b>Click Here</b> For Add Item Layout</button>
+        <h3 class="text-center">Update Item</h3> 
+        <form action="/updateitem" method="post">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Serial No:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="sr" id="sr" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Medicine Name:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="itemname" id="itemname" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Company Name:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="companyname" id="companyname"
+                                required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">MFG Date:</label>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control mt-3" name="mfgdate" id="mfgdate" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">EXP Date:</label>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control mt-3" name="expdate" id="expdate" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Unit Price:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control mt-3" name="unitprice" id="unitprice"
+                                required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" style="font-weight:bold;">Total Units:</label>
+                        </td>
+                        <td>
+                            <input type="Number" class="form-control mt-3" name="totalunits" id="totalunits"
+                                required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Update Item" class="btn btn-primary w-100 mt-2">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>`;
+    }
+
+    function editItem(itemNo) {
+        showUpdateItemLayou();
+
+        var medstock_list = '{{medStock}}';
+        medstock_list = medstock_list.replaceAll("&#39;", "");
+        medstock_list = medstock_list.substring(1, medstock_list.length - 1);
+        medstock_list = medstock_list.replaceAll("),", "#");
+        medstock_list = medstock_list.replaceAll("(", "");
+
+        medstock_list = medstock_list.split("#");
+
+        medstock_list[medstock_list.length - 1] = medstock_list[medstock_list.length - 1].replaceAll(")", "");
+
+
+        let medicine_name_list = Array();
+        let medicine_company_list = Array();
+        let medicine_mfg_list = Array();
+        let medicine_expiry_list = Array();
+        let medicine_price_list = Array();
+        let medicine_unitprice_list = Array();
+        let medicine_totalunits_list = Array();
+
+
+        for (i = 0; i < medstock_list.length; i++) {
+            temp = medstock_list[i].split(", ");
+            medicine_name_list.push(temp[1]);
+            medicine_company_list.push(temp[2]);
+            medicine_mfg_list.push(temp[3]);
+            medicine_expiry_list.push(temp[4]);
+            medicine_price_list.push(parseFloat(temp[5]));
+            medicine_totalunits_list.push(temp[6]);
+        }
+
+        document.getElementById("sr").value = itemNo;
+        document.getElementById("itemname").value = medicine_name_list[itemNo - 1];
+        document.getElementById("companyname").value = medicine_company_list[itemNo - 1];
+        document.getElementById("mfgdate").value = medicine_mfg_list[itemNo - 1];
+        document.getElementById("expdate").value = medicine_expiry_list[itemNo - 1];
+        document.getElementById("unitprice").value = medicine_price_list[itemNo - 1];
+        document.getElementById("totalunits").value = medicine_totalunits_list[itemNo - 1];
+    }
+
+</script>

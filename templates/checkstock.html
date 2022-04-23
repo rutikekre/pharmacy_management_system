@@ -1,0 +1,114 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS | Check Stock</title>
+
+    <!-- Bootstrap Links -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!--for data table  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <!-- Fevicon Icons -->
+
+
+    <!-- Other Links -->
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" href="/home">
+                    <h3><span style="color: red;font-weight:bolder;font-size:120%">+ </span><span
+                            class="text-primary">Pharmacy </span><span class="text-light">Management System</span></h3>
+                </a>
+                <a href="/logout">
+                    <button type="button" class="btn btn-outline-danger"><b>LOGOUT</b></button>
+                </a>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-2 bg-secondary">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{url_for('billing')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Billing</b></button>
+                        </a>
+
+                        <a href="{{url_for('checkstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2 active"><b>Check
+                                    Stock</b></button>
+                        </a>
+                        <a href="{{url_for('editstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Edit Stock</b></button>
+                        </a>
+                        <a href="{{url_for('home')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Admin</b></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container-fluid mt-3 d-flex justify-content-center">
+
+        <div class="row">
+            <table id="med" class="display">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Name of Medicine</th>
+                        <th>Company</th>
+                        <th>MFG</th>
+                        <th>EXP</th>
+                        <th>Unit Prize</th>
+                        <th>Total Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- Printing stock from database using jinja -->
+                    {%for i in ls%}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{i[1]}}</td>
+                        <td>{{i[2]}}</td>
+                        <td>{{i[3]}}</td>
+                        <td>{{i[4]}}</td>
+                        <td>{{i[5]}}</td>
+                        <td>{{i[6]}}</td>
+                    </tr>
+                    {%endfor%}
+
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
+
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#med').DataTable();
+    });
+</script>

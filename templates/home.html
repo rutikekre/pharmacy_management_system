@@ -1,0 +1,163 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS | Admin</title>
+
+    
+    <!-- Bootstrap Links -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Fevicon Icons -->
+
+
+    <!-- Other Links -->
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" href="/home">
+                    <h3><span style="color: red;font-weight:bolder;font-size:120%">+ </span><span
+                            class="text-primary">Pharmacy </span><span class="text-light">Management System</span></h3>
+                </a>
+                <a href="/logout">
+                    <button type="button" class="btn btn-outline-danger"><b>LOGOUT</b></button>
+                </a>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-2 bg-secondary">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{url_for('billing')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Billing</b></button>
+                        </a>
+                        <a href="{{url_for('checkstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Check Stock</b></button>
+                        </a>
+                        <a href="{{url_for('editstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Edit Stock</b></button>
+                        </a>
+                        <a href="{{url_for('home')}}">
+                            <button type="button" class="btn btn-outline-dark border-2 active"><b>Admin</b></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container-fluid p-5">
+        <div class="row text-center mb-4 text-primary justify-content-center">
+            <h1>Admin Page</h1>
+            <hr style="width:20%;height: 10px;background:black;border:none;margin:5px 0px;font-weight:bold;">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center pt-3">
+                <figure>
+                    <img src="{{url_for('static',filename='uploads/'+msg[-1])}}" alt="admin.png" width="350px"
+                        height="350px">
+                </figure>
+            </div>
+            <div class="col-md-4 pt-3" style="border-left: 6px solid black;height: 400px;padding:0px 30px">
+                <h1>{{msg[1]}}</h1>
+                <h3>Email : {{msg[2]}}</h3>
+
+                <button type="button" class="btn btn-primary m-2" onclick="editProfile();">Edit Profile</button>
+                <button type="button" class="btn btn-primary my-2" onclick="changePassword();">Change Password</button>
+
+                <div id="divslide">
+
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
+
+
+<script>
+    function changePassword() {
+        document.getElementById("divslide").innerHTML = `<form action="/changepassword" method="post" class="form-control">
+            <table>
+                <tr>
+                    <td>
+                        <label for="oldp">Enter Old Password :</label>
+                    </td>
+                    <td>
+                        <input type="password" id="newp" name="oldpassword" class="my-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="newp">Enter New Password :</label>
+                    </td>
+                    <td>
+                        <input type="password" id="newp" name="newpassword" class="my-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="conp">Confirm New Password :</label>
+                    </td>
+                    <td>
+                        <input type="password" id="conp" name="confirmpassword" class="my-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Change Password" class="btn btn-success my-1">
+                    </td>
+                </tr>
+            </table>
+        </form>`;
+    }
+
+    function editProfile() {
+        document.getElementById("divslide").innerHTML = `<form action="/editprofile" method="post" class="form-control"  enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>
+                        <label for="name">Name :</label>
+                    </td>
+                    <td>
+                        <input type="text" id="name" name="name" class="my-1"  value="{{msg[1]}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email :</label>
+                    </td>
+                    <td>
+                        <input type="email" id="email" name="email" class="my-1" value="{{msg[2]}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="img">Profile Photo :</label>
+                    </td>
+                    <td>
+                        <input type="file" accept=".jpeg,.png,.jpg" id="img" name="image" class="my-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Save Changes" class="btn btn-success my-2">
+                    </td>
+                </tr>
+            </table>
+        </form>`;
+    }
+
+</script>

@@ -1,0 +1,68 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS | Login </title>
+
+
+    <!-- Bootstrap Links -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Fevicon Icons -->
+
+
+    <!-- Other Links -->
+
+
+</head>
+
+<body class="bg-dark">
+
+    <header class="mt-5 br-3">
+        <h1 class="text-light text-center"><span class="text-danger" style="font-size:120%;font-weight:bolder">+
+            </span><span class="text-primary">Pharmacy</span> Management System<span class="text-danger"
+                style="font-size:120%;font-weight:bolder"> +</span></h1>
+
+        <h4 class="text-center text-light mt-5">LOGIN PAGE</h4>
+    </header>
+
+
+    <!-- Alert for Login Failed -->
+    {% if msg=="1" %}
+    <div class="row d-flex justify-content-center my-5">
+        <div class="col-md-6">
+            <div class="alert alert-danger alert-dismissible fade show p-2" role="alert">
+                <strong>Failed!</strong> Please Enter Valid Credentials.
+                <button type="button" class="pt-1 btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+
+
+    <main class="row d-flex justify-content-center">
+        <div class="col-md-4">
+            <form action="/handlelogin" method="post" class="text-light">
+                <label for="username">Username :</label>
+                <input type="test" id="name" name="username" class="form-control" placeholder="Enter Your Email Here"
+                    required><br>
+                <label for="passw">Password &nbsp:</label>
+                <input type="password" id="name" name="passw" class="form-control"><br>
+                <input type="submit" name="submit" value="Login" class="form-control btn btn-primary my-3"
+                    placeholder="Enter Password Here" required>
+                <a href="http://google.com" style="margin:20px auto">forgot password?</a>
+
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

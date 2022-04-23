@@ -1,0 +1,293 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS | Bill</title>
+
+    
+    <!-- Bootstrap Links -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Fevicon Icons -->
+
+
+    <!-- Other Links -->
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" href="/home">
+                    <h3><span style="color: red;font-weight:bolder;font-size:120%">+ </span><span
+                            class="text-primary">Pharmacy </span><span class="text-light">Management System</span></h3>
+                </a>
+                <a href="/logout">
+                    <button type="button" class="btn btn-outline-danger"><b>LOGOUT</b></button>
+                </a>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-2 bg-secondary">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{url_for('billing')}}">
+                            <button type="button" class="btn btn-outline-dark border-2 active"><b>Billing</b></button>
+                        </a>
+                        <a href="{{url_for('checkstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>CheckStock</b></button>
+                        </a>
+                        <a href="{{url_for('editstock')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Edit Stock</b></button>
+                        </a>
+                        <a href="{{url_for('home')}}">
+                            <button type="button" class="btn btn-outline-dark border-2"><b>Admin</b></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container-fluid mt-3 d-flex justify-content-center">
+        <form action="/handlebill" method="post" id="billform" autocomplete="off">
+            <div class="p-3 d-flex justify-content-center" style="border:2px solid black;color:black;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="padding:0px 30px;">
+                                <label for="pname" style="font-weight:bold;">Patient Name :</label>
+                                <input type="text" name="pname" id="pname" class="border-2 border-dark" required>
+                            </td>
+                            <td style="padding:0px 30px;">
+                                <label for="page" style="font-weight:bold;">Age:</label>
+                                <input type="number" name="age" id="page" style="width:40px"
+                                    class="border-2 border-dark" required>
+                                <label for="pmob" style="font-weight:bold;">Mo.No.:</label>
+                                <input type="text" name="pmob" id="pmob" style="width:160px"
+                                    class="border-2 border-dark" required>
+                            </td>
+                            <td style="padding:0px 30px;">
+                                <label for="date" style="font-weight:bold;">Date: &nbsp;&nbsp;&nbsp;</label>
+                                <input type="timestamp" name="date" class="border-2 border-dark" required>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding:10px 30px;">
+                                <label for="drname" style="font-weight:bold;">Dr.
+                                    Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                                <input type="text" name="drname" id="drname" class="border-2 border-dark" required>
+                            </td>
+                            <td style="padding:0px 30px;">
+                                <label for="hospitalname" style="font-weight:bold;">Hospital Name:</label>
+                                <input type="text" name="hospitalname" id="hospitalname" class="border-2 border-dark"
+                                    required>
+                            </td>
+                            <td style="padding:0px 30px;">
+                                <label style="font-weight:bold;">Bill No.: {{billno+1}}</label>
+                                <button type="button" onclick="resetButton();"
+                                    style="border-radius: 5px;width:100px;height:30px;margin:0px 50px;background-color: rgb(255, 34, 34);color:white">Reset</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="p-3 d-flex justify-content-between">
+                <div class="col-md-3 px-2 d-flex justify-content-center">
+                    <label for="itemlist" style="font-weight: bold;">Item List :</label>
+                    <input type="text" name="itemlist" id="itemlist" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-3 px-2 d-flex justify-content-center">
+                    <label for="items" style="font-weight: bold;">Quantity List :</label>
+                    <input type="text" name="quantitylist" id="quantitylist" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-3 px-2 d-flex justify-content-center">
+                    <label for="items" style="font-weight: bold;">Total Amm. :</label>
+                    <input type="text" name="totalammount" id="totalammount" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-3 d-flex justify-content-center">
+                    <input type="submit" value="Click Here to Submit" class="form-control btn btn-success"
+                        id="submitButton" onclick="submitButton();" disabled>
+                </div>
+            </div>
+
+            <div class="p-3 d-flex justify-content-center">
+                <table id="description">
+                    <tr style="border: 2px solid black;">
+                        <th style="width:100px; padding:5px 20px">Sr. No.</th>
+                        <th style="width:400px; padding:5px 20px">Description</th>
+                        <th style="width:50px;  padding:5px 20px">Qty</td>
+                        <th style="width:200px; padding:5px 20px">Expiry</th>
+                        <th style="width:200px; padding:5px 20px">Unit Prize</th>
+                        <th style="width:200px; padding:5px 20px">Amount</th>
+                    </tr>
+                    <tr>
+                        <td style="width:100px; padding:10px 20px"></td>
+                        <td style="width:100px; padding:10px 20px"><input type="text"
+                                class="form-control w-100 border-2 border-dark" id="medicine"
+                                placeholder="Enter Medicine Name"></td>
+                        <td style="width:100px; padding:10px 20px"><input type="number"
+                                class="form-control w-100 border-2 border-dark" id="qty" value="1"></td>
+                        <td style="width:200px; padding:10px 20px"><button type="button" class="btn btn-primary w-100"
+                                onclick="addMedicine();">Add to list</button></td>
+                        <td style="width:100px; padding:10px 20px"><button type="button" class="btn btn-danger"
+                                onclick="clearAll();">Clear All</button></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
+
+<script src="../static/js/billscript.js"></script>
+
+<!-- Script for item suggestion -->
+<script>
+    var medstock_list = '{{medstock}}'
+    medstock_list = medstock_list.replaceAll("&#39;", "")
+    medstock_list = medstock_list.substring(1, medstock_list.length - 1)
+    medstock_list = medstock_list.replaceAll("),", "#")
+    medstock_list = medstock_list.replaceAll("(", "")
+
+    medstock_list = medstock_list.split("#")
+
+    medstock_list[medstock_list.length - 1] = medstock_list[medstock_list.length - 1].replaceAll(")", "")
+
+
+    let medicine_name_list = Array();
+    let medicine_price_list = Array();
+    let medicine_expiry_list = Array();
+
+
+    for (i = 0; i < medstock_list.length; i++) {
+        temp = medstock_list[i].split(", ");
+        medicine_name_list.push(temp[1]);
+        medicine_price_list.push(parseFloat(temp[5]));
+        medicine_expiry_list.push(temp[4]);
+    }
+
+
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false; }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.addEventListener("mouseenter", (event) => { event.target.style.color = "red" });
+                    b.addEventListener("mouseleave", (event) => { event.target.style.color = "black" });
+
+                    b.setAttribute("style", "cursor:pointer");
+
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        //   document.addEventListener("click", function (e) {
+        //     closeAllLists(e.target);
+        //});
+    }
+
+</script>
+
+<!-- Script for item suggestion -->
+<script>
+    autocomplete(document.getElementById("medicine"), medicine_name_list);
+</script>

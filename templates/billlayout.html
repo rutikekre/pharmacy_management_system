@@ -1,0 +1,131 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS | PrintBill </title>
+
+
+    <!-- Bootstrap Links -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+</head>
+
+<style>
+    div div table thead tr th {
+        padding-left: 100px;
+    }
+
+    div div table tbody tr td {
+        padding-left: 100px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4"><span class="text-danger"><b>+</b></span>&nbsp&nbsp <span
+                class="text-primary">Pharmacy</span> Management
+            System&nbsp&nbsp<span class="text-danger"><b>+</b></span></h1>
+
+        <div class="my-5 d-flex justify-content-center">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding:0px 30px;" class="d-flex">
+                            <label for="pname" style="font-weight:bold;margin-right:10px;">Patient Name :</label>
+                            {{name}}
+                        </td>
+                        <td style="padding:0px 30px;">
+                            <label for="page" style="font-weight:bold;">Age:</label>
+                            {{age}}
+
+                            <label for="pmob" style="font-weight:bold;margin:0px 0px 0px 10px">Contact No.:</label>
+                            {{mob}}
+                        </td>
+                        <td style="padding:0px 30px;">
+                            <label for="date" style="font-weight:bold;">Date: &nbsp;</label>
+                            {{date}}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:10px 30px;">
+                            <label for="drname" style="font-weight:bold;">Dr.
+                                Name:&nbsp&nbsp&nbsp;</label>
+                            {{dr}}
+                        </td>
+                        <td style="padding:0px 30px;">
+                            <label for="hospitalname" style="font-weight:bold;">Hospital Name:</label>
+                            {{hosp}}
+                        </td>
+                        <td style="padding:0px 30px;">
+                            <label style="font-weight:bold;">Bill No.: {{billno}} </label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="my-2">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Name of Item </th>
+                        <th>Expiry</th>
+                        <th>Total Units</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(medicines|length)%}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{medicines[i]}}</td>
+                        <td>{{expiry[i]}}</td>
+                        <td>{{qty[i]}}</td>
+                        <td>{{unitprice[i]}}</td>
+                        <td>{{qty[i] * unitprice[i]}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div  class="text-center">
+        <button class="btn btn-warning w-50 mb-5 mt-2" disabled>Total Amount: {{total}} Rs.</button>
+    </div>
+    <div class="text-center" id="printButton">
+        <button class="btn btn-primary w-50 my-2" onclick="printButton()">
+            Print
+        </button>
+        <a href="/billing">
+            <button class="btn btn-primary w-50 my-2">Click Here to Open Billing</button>
+        </a>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    function printButton() {
+        document.getElementById("printButton").innerHTML = "";
+        print();
+        document.getElementById("printButton").innerHTML = `<button class="btn btn-primary w-50 my-2" onclick="printButton()">
+            Print
+        </button>
+        <a href="/billing">
+            <button class="btn btn-primary w-50 my-2">Click Here to Open Billing</button>
+        </a>`;
+
+    }
+
+</script>
